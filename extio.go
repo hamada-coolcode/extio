@@ -15,3 +15,12 @@ func Input(prompt string) string {
 	text, _ := reader.ReadString('\n')
 	return strings.TrimRight(text, "\r\n")
 }
+
+// InputAs reads a line using Input and attempts to convert it to type T.
+// It uses fmt.Sscan for conversion.
+func InputAs[T any](prompt string) (T, error) {
+	var value T
+	input := Input(prompt)
+	_, err := fmt.Sscan(input, &value)
+	return value, err
+}
