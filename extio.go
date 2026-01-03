@@ -4,7 +4,9 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
+	"runtime"
 )
 
 // Input prints the prompt to standard output and reads a line from standard input.
@@ -23,4 +25,16 @@ func InputAs[T any](prompt string) (T, error) {
 	input := Input(prompt)
 	_, err := fmt.Sscan(input, &value)
 	return value, err
+}
+
+func ClearScreen() {
+	if runtime.GOOS == "windows" {
+		cmd := exec.Command("cmd", "/c", "cls")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	} else {
+		cmd := exec.Command("clear")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	}
 }
